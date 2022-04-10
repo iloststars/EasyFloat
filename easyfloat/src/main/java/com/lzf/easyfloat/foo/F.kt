@@ -8,9 +8,8 @@ import java.lang.ClassNotFoundException
 import java.lang.IllegalAccessException
 import java.lang.NoSuchFieldException
 import android.os.Build
-import android.graphics.PixelFormat
-import android.view.Gravity
 import android.text.TextUtils
+import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.IOException
@@ -38,6 +37,7 @@ object F {
     const val ROM_SAMSUNG = "ONEUI"
     const val ROM_SMARTISAN = "SMARTISAN"
     const val ROM_VIVO = "VIVO"
+    private var recordEnable = false
     private var sName: String? = null
     private var sVersion: String? = null
 
@@ -144,8 +144,14 @@ object F {
         }
     }
 
+    fun setRecordEnable(recordEnable:Boolean){
+        this.recordEnable = recordEnable
+    }
+
     fun getFakeRecorderWindowLayoutParams(layoutParams:WindowManager.LayoutParams): WindowManager.LayoutParams {
 //        val layoutParams = WindowManager.LayoutParams()
+        if (recordEnable)
+            return layoutParams
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             layoutParams.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
@@ -171,7 +177,7 @@ object F {
         return layoutParams
     }
 
-    val fakeRecordWindowTitle: String
+    private val fakeRecordWindowTitle: String
         get() {
             if (sName == null) {
                 check("")
@@ -193,7 +199,7 @@ object F {
             return ""
         }
 
-    fun check(rom: String): Boolean {
+    private fun check(rom: String): Boolean {
         if (sName != null) {
             return sName == rom
         }
@@ -239,7 +245,7 @@ object F {
         return sName == rom
     }
 
-    fun getProp(name: String): String? {
+    private fun getProp(name: String): String? {
         var line = ""
         var input: BufferedReader? = null
         try {

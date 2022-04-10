@@ -14,6 +14,7 @@ import com.lzf.easyfloat.example.R
 import com.lzf.easyfloat.example.logger
 import com.lzf.easyfloat.example.startActivity
 import com.lzf.easyfloat.example.widget.*
+import com.lzf.easyfloat.foo.F
 import com.lzf.easyfloat.interfaces.OnPermissionResult
 import com.lzf.easyfloat.interfaces.OnTouchRangeListener
 import com.lzf.easyfloat.permission.PermissionUtils
@@ -197,6 +198,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun showAppFloat() {
+        F.setRecordEnable(false)
         EasyFloat.with(this.applicationContext)
             .setShowPattern(ShowPattern.ALL_TIME)
             .setSidePattern(SidePattern.RESULT_SIDE)
